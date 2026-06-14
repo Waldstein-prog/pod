@@ -67,6 +67,14 @@ def create_app():
     def shop():
         db = get_db()
         rows = db.execute(PODS_QUERY).fetchall()
+        twitch = session.get("twitch")
+        my_claim = None
+        if twitch:
+            my_claim = db.execute(
+                "SELECT pod.naam AS pod_naam FROM claim JOIN pod ON pod.id = claim.pod_id "
+                "WHERE LOWER(claim.bezoeker_naam) = LOWER(?) LIMIT 1",
+                (twitch,),
+            ).fetchone()
         db.close()
         per_categorie = OrderedDict()
         for r in rows:
@@ -74,8 +82,8 @@ def create_app():
         return render_template(
             "shop.html",
             per_categorie=per_categorie,
-            entered=bool(session.get("twitch")),
-            claimed=session.get("claimed"),
+            entered=bool(twitch),
+            my_claim=my_claim,
         )
 
     @app.route("/enter", methods=["POST"])
@@ -107,7 +115,10 @@ def create_app():
             if not _is_live(db):
                 flash("The giveaway is not live.", "fout")
                 return redirect(url_for("shop"))
-            if session.get("claimed"):
+            already = db.execute(
+                "SELECT 1 FROM claim WHERE LOWER(bezoeker_naam) = LOWER(?)", (twitch,)
+            ).fetchone()
+            if already:
                 flash("You already claimed a pod.", "fout")
                 return redirect(url_for("shop"))
             pod_id = request.form.get("pod_id", type=int)
@@ -126,7 +137,6 @@ def create_app():
                 (pod_id, twitch, palia),
             )
             db.commit()
-            session["claimed"] = pod_id
         finally:
             db.close()
         return render_template("claim_done.html", pod=pod, naam=twitch)

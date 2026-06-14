@@ -4,8 +4,8 @@
   <h1>Welcome to the Magic Meadow Giveaway</h1>
   {% if not giveaway_live %}
     <p class="closed">The giveaway is not live right now. Check back soon! 🌙</p>
-  {% elif claimed %}
-    <p class="done">You've claimed your pod 🎉 Good luck, {{ session.get('twitch') }}!</p>
+  {% elif my_claim %}
+    <p class="done">You've claimed {{ my_claim['pod_naam'] }} 🎉 Good luck, {{ session.get('twitch') }}!</p>
   {% elif not entered %}
     <p>Please fill in your Twitch name and your Palia name.</p>
     <form method="post" action="{{ url_for('enter') }}" class="enterform">
@@ -29,7 +29,7 @@
         <h3>{{ pod['naam'] }}</h3>
         {% if pod['remaining'] > 0 %}
           <p class="stock">{{ pod['remaining'] }} left</p>
-          {% if giveaway_live and entered and not claimed %}
+          {% if giveaway_live and entered and not my_claim %}
             <button type="submit" name="pod_id" value="{{ pod['id'] }}">Claim this pod</button>
           {% endif %}
         {% else %}

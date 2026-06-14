@@ -88,6 +88,23 @@ def test_claim_geblokkeerd_als_niet_live(client):
     assert _count("claim") == 0
 
 
+def test_na_cancel_kan_opnieuw_kiezen(client):
+    _enter(client)
+    client.post("/claim", data={"pod_id": "1"})
+    assert _count("claim") == 1
+    # admin cancelt de claim -> rij verdwijnt
+    import db as db_mod
+    conn = db_mod.get_db()
+    conn.execute("DELETE FROM claim")
+    conn.commit()
+    conn.close()
+    # zelfde bezoeker (sessie) is niet langer geblokkeerd en kan opnieuw kiezen
+    resp = client.get("/")
+    assert b"Claim this pod" in resp.data
+    client.post("/claim", data={"pod_id": "1"})
+    assert _count("claim") == 1
+
+
 def test_een_pod_per_bezoeker(client):
     import db as db_mod
     conn = db_mod.get_db()
