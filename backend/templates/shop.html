@@ -1,29 +1,43 @@
 {% extends "base.html" %}
 {% block content %}
-<form method="post" action="{{ url_for('claim') }}">
-  <div class="welkom">
-    <h1>Welcome to the Magic Meadow Giveaway</h1>
-    <p>Please fill in your Twitch name.</p>
-    <input type="text" name="bezoeker_naam" placeholder="Your Twitch name" required>
-  </div>
+<div class="welkom">
+  <h1>Welcome to the Magic Meadow Giveaway</h1>
+  {% if not giveaway_live %}
+    <p class="closed">The giveaway is not live right now. Check back soon! 🌙</p>
+  {% elif claimed %}
+    <p class="done">You've claimed your pod 🎉 Good luck, {{ session.get('twitch') }}!</p>
+  {% elif not entered %}
+    <p>Please fill in your Twitch name and your Palia name.</p>
+    <form method="post" action="{{ url_for('enter') }}" class="enterform">
+      <input type="text" name="bezoeker_naam" placeholder="Your Twitch name" required>
+      <input type="text" name="palia_naam" placeholder="Your Palia name" required>
+      <button type="submit">Submit</button>
+    </form>
+  {% else %}
+    <p class="done">Hi {{ session.get('twitch') }}! Pick the pod you want below. 🥔</p>
+  {% endif %}
+</div>
 
-  <h2 class="claim-titel">Claim your pod</h2>
-  {% for categorie, pods in per_categorie.items() %}
-    <h2>{{ categorie }}</h2>
-    <div class="grid">
-      {% for pod in pods %}
-        <div class="card {% if pod['stock'] < 1 %}uitverkocht{% endif %}">
-          <img src="{{ url_for('static', filename='pods/' ~ pod['image_bestand']) }}" alt="{{ pod['naam'] }}" loading="lazy">
-          <h3>{{ pod['naam'] }}</h3>
-          {% if pod['stock'] > 0 %}
-            <p class="stock">{{ pod['stock'] }} left</p>
+<h2 class="claim-titel">Claim your pod</h2>
+<form method="post" action="{{ url_for('claim') }}">
+{% for categorie, pods in per_categorie.items() %}
+  <h2>{{ categorie }}</h2>
+  <div class="grid">
+    {% for pod in pods %}
+      <div class="card {% if pod['remaining'] < 1 %}uitverkocht{% endif %}">
+        <img src="{{ url_for('static', filename='pods/' ~ pod['image_bestand']) }}" alt="{{ pod['naam'] }}" loading="lazy">
+        <h3>{{ pod['naam'] }}</h3>
+        {% if pod['remaining'] > 0 %}
+          <p class="stock">{{ pod['remaining'] }} left</p>
+          {% if giveaway_live and entered and not claimed %}
             <button type="submit" name="pod_id" value="{{ pod['id'] }}">Claim this pod</button>
-          {% else %}
-            <p class="stock op">Gone</p>
           {% endif %}
-        </div>
-      {% endfor %}
-    </div>
-  {% endfor %}
+        {% else %}
+          <p class="stock op">Gone</p>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+{% endfor %}
 </form>
 {% endblock %}

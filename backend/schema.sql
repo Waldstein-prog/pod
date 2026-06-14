@@ -3,13 +3,15 @@ CREATE TABLE IF NOT EXISTS pod (
     naam          TEXT NOT NULL,
     categorie     TEXT NOT NULL,
     image_bestand TEXT NOT NULL,
-    stock         INTEGER NOT NULL DEFAULT 1
+    stock         INTEGER NOT NULL DEFAULT 0   -- totaal/startwaarde dat weggegeven wordt
 );
 
 CREATE TABLE IF NOT EXISTS claim (
     id            INTEGER PRIMARY KEY AUTOINCREMENT,
     pod_id        INTEGER NOT NULL REFERENCES pod(id) ON DELETE CASCADE,
-    bezoeker_naam TEXT NOT NULL,
+    bezoeker_naam TEXT NOT NULL,                -- Twitch-naam
+    palia_naam    TEXT NOT NULL DEFAULT '',
+    status        TEXT NOT NULL DEFAULT 'pending',  -- pending | confirmed
     tijdstip      TEXT NOT NULL DEFAULT (datetime('now'))
 );
 

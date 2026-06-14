@@ -15,6 +15,7 @@ def client():
     conn.execute(
         "INSERT INTO pod (naam, categorie, image_bestand, stock) VALUES ('Test Pod', 'Mushpod', 'x.webp', 1)"
     )
+    conn.execute("UPDATE setting SET waarde = '1' WHERE sleutel = 'giveaway_live'")
     conn.commit()
     conn.close()
 
@@ -26,40 +27,76 @@ def client():
     os.unlink(path)
 
 
+def _enter(client, twitch="Alice", palia="AliceP"):
+    return client.post("/enter", data={"bezoeker_naam": twitch, "palia_naam": palia})
+
+
+def _count(table, where=""):
+    import db as db_mod
+    conn = db_mod.get_db()
+    n = conn.execute(f"SELECT COUNT(*) FROM {table} {where}").fetchone()[0]
+    conn.close()
+    return n
+
+
 def test_shop_toont_pod(client):
     resp = client.get("/")
     assert resp.status_code == 200
     assert b"Test Pod" in resp.data
 
 
-def test_claim_verlaagt_stock(client):
-    resp = client.post("/claim", data={"pod_id": "1", "bezoeker_naam": "Alice"}, follow_redirects=True)
-    assert resp.status_code == 200
+def test_geen_claimknop_voor_entering(client):
+    # Zonder namen ingevuld is er geen claim-knop zichtbaar.
+    resp = client.get("/")
+    assert b"Claim this pod" not in resp.data
+
+
+def test_claimknop_na_entering(client):
+    _enter(client)
+    resp = client.get("/")
+    assert b"Claim this pod" in resp.data
+
+
+def test_claim_registreert_en_vergrendelt(client):
+    _enter(client)
+    client.post("/claim", data={"pod_id": "1"}, follow_redirects=True)
     import db as db_mod
     conn = db_mod.get_db()
-    stock = conn.execute("SELECT stock FROM pod WHERE id = 1").fetchone()[0]
-    claims = conn.execute("SELECT bezoeker_naam FROM claim WHERE pod_id = 1").fetchall()
+    row = conn.execute("SELECT bezoeker_naam, palia_naam, status FROM claim").fetchone()
     conn.close()
-    assert stock == 0
-    assert claims[0][0] == "Alice"
+    assert row["bezoeker_naam"] == "Alice"
+    assert row["palia_naam"] == "AliceP"
+    assert row["status"] == "pending"
+    # pod is nu vol -> tweede bezoeker ziet 'Gone'
+    resp = client.get("/")
+    assert b"Gone" in resp.data
 
 
-def test_claim_geweigerd_bij_stock_nul(client):
-    client.post("/claim", data={"pod_id": "1", "bezoeker_naam": "Alice"})
-    client.post("/claim", data={"pod_id": "1", "bezoeker_naam": "Bob"})
+def test_claim_zonder_entering_geweigerd(client):
+    client.post("/claim", data={"pod_id": "1"})
+    assert _count("claim") == 0
+
+
+def test_claim_geblokkeerd_als_niet_live(client):
     import db as db_mod
     conn = db_mod.get_db()
-    aantal = conn.execute("SELECT COUNT(*) FROM claim WHERE pod_id = 1").fetchone()[0]
+    conn.execute("UPDATE setting SET waarde = '0' WHERE sleutel = 'giveaway_live'")
+    conn.commit()
     conn.close()
-    assert aantal == 1
+    _enter(client)
+    client.post("/claim", data={"pod_id": "1"})
+    assert _count("claim") == 0
 
 
-def test_claim_lege_naam_geweigerd(client):
-    client.post("/claim", data={"pod_id": "1", "bezoeker_naam": "  "})
+def test_een_pod_per_bezoeker(client):
     import db as db_mod
     conn = db_mod.get_db()
-    aantal = conn.execute("SELECT COUNT(*) FROM claim").fetchone()[0]
-    stock = conn.execute("SELECT stock FROM pod WHERE id = 1").fetchone()[0]
+    conn.execute(
+        "INSERT INTO pod (naam, categorie, image_bestand, stock) VALUES ('Pod Two', 'Merpod', 'y.webp', 1)"
+    )
+    conn.commit()
     conn.close()
-    assert aantal == 0
-    assert stock == 1
+    _enter(client)
+    client.post("/claim", data={"pod_id": "1"})
+    client.post("/claim", data={"pod_id": "2"})
+    assert _count("claim") == 1

@@ -5,15 +5,30 @@
   <p>No one has claimed a pod yet.</p>
 {% else %}
   <table class="verkopen">
-    <thead><tr><th></th><th>Pod</th><th>Category</th><th>Claimed by</th><th>When</th></tr></thead>
+    <thead><tr>
+      <th></th><th>Pod</th><th>Twitch name</th><th>Palia name</th>
+      <th>Status</th><th>When</th><th>Actions</th>
+    </tr></thead>
     <tbody>
       {% for c in claims %}
         <tr>
           <td><img class="thumb" src="{{ url_for('static', filename='pods/' ~ c['image_bestand']) }}" alt=""></td>
           <td>{{ c['pod_naam'] }}</td>
-          <td>{{ c['categorie'] }}</td>
           <td>{{ c['bezoeker_naam'] }}</td>
+          <td>{{ c['palia_naam'] }}</td>
+          <td><span class="badge {{ c['status'] }}">{{ c['status'] }}</span></td>
           <td>{{ c['tijdstip'] }}</td>
+          <td class="acties">
+            {% if c['status'] != 'confirmed' %}
+              <form method="post" action="{{ url_for('admin_claim_confirm', cid=c['id']) }}" class="inline">
+                <button type="submit" class="go">Confirm</button>
+              </form>
+            {% endif %}
+            <form method="post" action="{{ url_for('admin_claim_cancel', cid=c['id']) }}" class="inline"
+                  onsubmit="return confirm('Cancel this claim and release the pod?');">
+              <button type="submit" class="danger">Cancel</button>
+            </form>
+          </td>
         </tr>
       {% endfor %}
     </tbody>

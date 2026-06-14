@@ -11,6 +11,7 @@
     <a class="logo" href="{{ url_for('shop') }}">🥔 Palia Pod Giveaway</a>
     <nav>
       {% if session.get('admin') %}
+        <span class="navstatus {{ 'live' if giveaway_live else 'stopped' }}">{{ 'LIVE' if giveaway_live else 'stopped' }}</span>
         <a href="{{ url_for('admin_stock') }}">Stock</a>
         <a href="{{ url_for('admin_sales') }}">Claims</a>
         <form method="post" action="{{ url_for('admin_logout') }}" class="inline">

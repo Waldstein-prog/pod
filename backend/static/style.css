@@ -14,9 +14,31 @@ h2 { border-bottom:2px solid var(--line); padding-bottom:.3rem; margin-top:2rem;
 .welkom { text-align:center; margin:0 auto 2rem; max-width:540px; }
 .welkom h1 { margin-bottom:.4rem; }
 .welkom p { color:var(--accent-d); margin:.2rem 0 .8rem; }
-.welkom input { width:100%; max-width:320px; padding:.6rem .8rem; border:1px solid var(--line);
+.welkom p.closed { color:#b04a3a; font-weight:600; }
+.welkom p.done { color:var(--accent-d); font-weight:600; }
+.enterform { display:flex; flex-direction:column; align-items:center; gap:.5rem; }
+.enterform input { width:100%; max-width:320px; padding:.6rem .8rem; border:1px solid var(--line);
   border-radius:8px; font:inherit; text-align:center; }
 .claim-titel { text-align:center; border:none; }
+
+/* Admin control-bar */
+.adminbar { display:flex; align-items:center; gap:.6rem; flex-wrap:wrap; margin-bottom:1rem; }
+.status { font-weight:700; padding:.3rem .7rem; border-radius:6px; }
+.status.live { background:#dff0d8; color:#3c763d; }
+.status.stopped { background:#f2dede; color:#a94442; }
+.navstatus { font-size:.75rem; font-weight:700; padding:.15rem .5rem; border-radius:5px; margin-left:.5rem; }
+.navstatus.live { background:#dff0d8; color:#3c763d; }
+.navstatus.stopped { background:#3a5a32; color:#cfe3c4; }
+.hint { color:var(--accent-d); font-size:.9rem; margin-top:-.4rem; }
+button.go { background:var(--accent-d); }
+button.danger { background:#b04a3a; }
+button.danger:hover { background:#8f3a2d; }
+.stock-input { width:5em; padding:.3rem; border:1px solid var(--line); border-radius:6px; font:inherit; }
+.stock-input.saved { outline:2px solid var(--accent); background:#f1f7ec; }
+.badge { font-size:.78rem; font-weight:700; padding:.15rem .5rem; border-radius:5px; text-transform:uppercase; }
+.badge.pending { background:#fcf3cf; color:#7a5d00; }
+.badge.confirmed { background:#dff0d8; color:#3c763d; }
+.acties { display:flex; gap:.4rem; }
 .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:1rem; }
 .card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:1rem;
   text-align:center; display:flex; flex-direction:column; }

@@ -36,9 +36,14 @@ cd backend && python3 fetch_images.py
 
 ## Pagina's
 
-- `/` — winkel: pods per categorie, met afbeelding en resterende voorraad. Kiezen = naam invullen.
-- `/admin` — voorraadbeheer (login vereist): stel per pod in hoeveel exemplaren beschikbaar zijn.
-- `/admin/verkopen` — overzicht van wie welke pod koos, met afbeelding en tijdstip.
+- `/` — giveaway: bezoeker vult eerst Twitch-naam + Palia-naam in en klikt Submit; pas
+  daarna zijn de pods kiesbaar. Eén claim per bezoeker; een geclaimde pod ligt vast voor
+  anderen. Werkt alleen wanneer de giveaway "live" staat.
+- `/admin` — voorraadbeheer (login vereist): per pod het aantal instellen (**auto-save**,
+  geen knop), plus **Go Live / Stop** om de giveaway te starten/stoppen en **Reset** (met
+  bevestiging) om alle claims te wissen en de hoeveelheden naar de startwaarden te zetten.
+- `/admin/verkopen` — alle claims met afbeelding, Twitch- en Palia-naam, status en tijdstip;
+  per claim een **Confirm** (definitief maken) en **Cancel** (pod weer vrijgeven).
 
 ## Deploy op PythonAnywhere (git pull, zoals bog)
 
