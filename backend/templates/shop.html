@@ -1,25 +1,29 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Claim your pod</h1>
-{% for categorie, pods in per_categorie.items() %}
-  <h2>{{ categorie }}</h2>
-  <div class="grid">
-    {% for pod in pods %}
-      <div class="card {% if pod['stock'] < 1 %}uitverkocht{% endif %}">
-        <img src="{{ url_for('static', filename='pods/' ~ pod['image_bestand']) }}" alt="{{ pod['naam'] }}" loading="lazy">
-        <h3>{{ pod['naam'] }}</h3>
-        {% if pod['stock'] > 0 %}
-          <p class="stock">{{ pod['stock'] }} left</p>
-          <form method="post" action="{{ url_for('claim') }}">
-            <input type="hidden" name="pod_id" value="{{ pod['id'] }}">
-            <input type="text" name="bezoeker_naam" placeholder="Your Twitch name" required>
-            <button type="submit">Claim this pod</button>
-          </form>
-        {% else %}
-          <p class="stock op">Gone</p>
-        {% endif %}
-      </div>
-    {% endfor %}
+<form method="post" action="{{ url_for('claim') }}">
+  <div class="welkom">
+    <h1>Welcome to the Magic Meadow Giveaway</h1>
+    <p>Please fill in your Twitch name.</p>
+    <input type="text" name="bezoeker_naam" placeholder="Your Twitch name" required>
   </div>
-{% endfor %}
+
+  <h2 class="claim-titel">Claim your pod</h2>
+  {% for categorie, pods in per_categorie.items() %}
+    <h2>{{ categorie }}</h2>
+    <div class="grid">
+      {% for pod in pods %}
+        <div class="card {% if pod['stock'] < 1 %}uitverkocht{% endif %}">
+          <img src="{{ url_for('static', filename='pods/' ~ pod['image_bestand']) }}" alt="{{ pod['naam'] }}" loading="lazy">
+          <h3>{{ pod['naam'] }}</h3>
+          {% if pod['stock'] > 0 %}
+            <p class="stock">{{ pod['stock'] }} left</p>
+            <button type="submit" name="pod_id" value="{{ pod['id'] }}">Claim this pod</button>
+          {% else %}
+            <p class="stock op">Gone</p>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  {% endfor %}
+</form>
 {% endblock %}

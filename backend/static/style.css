@@ -11,6 +11,12 @@ nav { display:flex; align-items:center; gap:.5rem; }
 main { max-width:1100px; margin:0 auto; padding:1.5rem 1rem 4rem; }
 h1 { margin-top:0; }
 h2 { border-bottom:2px solid var(--line); padding-bottom:.3rem; margin-top:2rem; }
+.welkom { text-align:center; margin:0 auto 2rem; max-width:540px; }
+.welkom h1 { margin-bottom:.4rem; }
+.welkom p { color:var(--accent-d); margin:.2rem 0 .8rem; }
+.welkom input { width:100%; max-width:320px; padding:.6rem .8rem; border:1px solid var(--line);
+  border-radius:8px; font:inherit; text-align:center; }
+.claim-titel { text-align:center; border:none; }
 .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:1rem; }
 .card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:1rem;
   text-align:center; display:flex; flex-direction:column; }
