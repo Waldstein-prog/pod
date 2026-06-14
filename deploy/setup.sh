@@ -33,8 +33,12 @@ echo "==> 3/4  WSGI-bestand koppelen"
 WROTE=0
 for f in /var/www/*_wsgi.py; do
     [ -e "$f" ] || continue
-    cp "$REPO/deploy/pa_wsgi.py" "$f"
-    echo "    geschreven naar $f"
+    if [ "$f" -ef "$REPO/deploy/pa_wsgi.py" ]; then
+        echo "    al gekoppeld (symlink) -> $f"
+    else
+        cp "$REPO/deploy/pa_wsgi.py" "$f"
+        echo "    geschreven naar $f"
+    fi
     WROTE=1
 done
 if [ "$WROTE" = 0 ]; then
