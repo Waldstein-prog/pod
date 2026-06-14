@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+backend/venv/
+backend/*.db
+deploy_bundle/
+pod_deploy.zip
+.pytest_cache/
