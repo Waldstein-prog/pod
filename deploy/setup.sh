@@ -30,15 +30,19 @@ else
 fi
 
 echo "==> 3/4  WSGI-bestand koppelen"
-WSGI="$(ls /var/www/*_wsgi.py 2>/dev/null | head -1)"
-if [ -z "$WSGI" ]; then
+WROTE=0
+for f in /var/www/*_wsgi.py; do
+    [ -e "$f" ] || continue
+    cp "$REPO/deploy/pa_wsgi.py" "$f"
+    echo "    geschreven naar $f"
+    WROTE=1
+done
+if [ "$WROTE" = 0 ]; then
     echo "    !! Geen web-app gevonden in /var/www/."
     echo "       Maak eerst op de Web-tab een web-app aan (Add a new web app ->"
     echo "       Manual configuration), en draai dit script daarna opnieuw."
     exit 1
 fi
-cp "$REPO/deploy/pa_wsgi.py" "$WSGI"
-echo "    geschreven naar $WSGI"
 
 echo "==> 4/4  Dependencies"
 if [ -n "$VIRTUAL_ENV" ]; then
@@ -49,7 +53,25 @@ else
     echo "       workon pod-venv && pip install -r $BACKEND/requirements.txt"
 fi
 
+echo "==> 5/5  Web-app herladen"
+RELOADED=0
+DOMAIN="$(echo "$USER" | tr 'A-Z' 'a-z').pythonanywhere.com"
+if [ -n "$API_TOKEN" ]; then
+    if curl -sf -X POST \
+        "https://www.pythonanywhere.com/api/v0/user/$USER/webapps/$DOMAIN/reload/" \
+        -H "Authorization: Token $API_TOKEN" >/dev/null 2>&1; then
+        echo "    automatisch herladen gelukt ($DOMAIN)"
+        RELOADED=1
+    fi
+fi
+
 echo ""
 echo "============================================================"
-echo " KLAAR. Ga nu naar de Web-tab en klik op de groene Reload-knop."
+if [ "$RELOADED" = 1 ]; then
+    echo " KLAAR. Open https://$DOMAIN — de pod-winkel draait."
+else
+    echo " BIJNA KLAAR. Eén klik nog: Web-tab -> groene Reload-knop."
+    echo " (auto-reload kon niet: geen API-token. Account-tab -> 'API token'"
+    echo "  aanmaken en dit script opnieuw draaien laat 't voortaan vanzelf gaan.)"
+fi
 echo "============================================================"
