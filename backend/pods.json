@@ -1,0 +1,287 @@
+[
+  {
+    "naam": "George the Fancypod",
+    "categorie": "Fancypod",
+    "image_bestand": "decor-potatopod-47-fancy-rococo.webp"
+  },
+  {
+    "naam": "Elizabeth the Fancypod",
+    "categorie": "Fancypod",
+    "image_bestand": "decor-potatopod-48-fancy-versailles.webp"
+  },
+  {
+    "naam": "Darcy the Fancypod",
+    "categorie": "Fancypod",
+    "image_bestand": "decor-potatopod-49-fancy-renaissance.webp"
+  },
+  {
+    "naam": "Lacey the Fancypod",
+    "categorie": "Fancypod",
+    "image_bestand": "decor-potatopod-50-fancy-doily.webp"
+  },
+  {
+    "naam": "Dorian the Fancypod",
+    "categorie": "Fancypod",
+    "image_bestand": "decor-potatopod-51-fancy-crystal.webp"
+  },
+  {
+    "naam": "Rebecca the Fancypod",
+    "categorie": "Fancypod",
+    "image_bestand": "decor-potatopod-52-fancy-amber.webp"
+  },
+  {
+    "naam": "Charlotte the Fancypod",
+    "categorie": "Fancypod",
+    "image_bestand": "decor-potatopod-53-fancy-macron.webp"
+  },
+  {
+    "naam": "Basil the Fancypod",
+    "categorie": "Fancypod",
+    "image_bestand": "decor-potatopod-54-fancy-socialite.webp"
+  },
+  {
+    "naam": "Victor the Fancypod",
+    "categorie": "Fancypod",
+    "image_bestand": "decor-potatopod-55-fancy-jade.webp"
+  },
+  {
+    "naam": "Danvers the Fancypod",
+    "categorie": "Fancypod",
+    "image_bestand": "decor-potatopod-56-fancy-silver.webp"
+  },
+  {
+    "naam": "Newton the Smartypod",
+    "categorie": "Smartypod",
+    "image_bestand": "decor-potatopod-38-winter-ruby.webp"
+  },
+  {
+    "naam": "Volta the Smartypod",
+    "categorie": "Smartypod",
+    "image_bestand": "decor-potatopod-39-winter-shocker.webp"
+  },
+  {
+    "naam": "Kelvin the Smartypod",
+    "categorie": "Smartypod",
+    "image_bestand": "decor-potatopod-40-winter-icepick.webp"
+  },
+  {
+    "naam": "Mendella the Smartypod",
+    "categorie": "Smartypod",
+    "image_bestand": "decor-potatopod-41-winter-starroot.webp"
+  },
+  {
+    "naam": "Oz the Smartypod",
+    "categorie": "Smartypod",
+    "image_bestand": "decor-potatopod-42-winter-emerald.webp"
+  },
+  {
+    "naam": "Rosalind the Smartypod",
+    "categorie": "Smartypod",
+    "image_bestand": "decor-potatopod-43-winter-icerose.webp"
+  },
+  {
+    "naam": "Lavo the Smartypod",
+    "categorie": "Smartypod",
+    "image_bestand": "decor-potatopod-44-winter-flametangle.webp"
+  },
+  {
+    "naam": "Darwin the Smartypod",
+    "categorie": "Smartypod",
+    "image_bestand": "decor-potatopod-45-winter-holidaylights.webp"
+  },
+  {
+    "naam": "Beatrix the Smartypod",
+    "categorie": "Smartypod",
+    "image_bestand": "decor-potatopod-46-winter-snowshroom.webp"
+  },
+  {
+    "naam": "Prissy the Shinypod",
+    "categorie": "Shinypod",
+    "image_bestand": "decor-potatopod-28-fancy-shine.webp"
+  },
+  {
+    "naam": "Cyrus the Shinypod",
+    "categorie": "Shinypod",
+    "image_bestand": "decor-potatopod-29-fancy-citrine.webp"
+  },
+  {
+    "naam": "Goldie the Shinypod",
+    "categorie": "Shinypod",
+    "image_bestand": "decor-potatopod-30-fancy-golden.webp"
+  },
+  {
+    "naam": "Maggie the Shinypod",
+    "categorie": "Shinypod",
+    "image_bestand": "decor-potatopod-31-fancy-magicsucculent.webp"
+  },
+  {
+    "naam": "Eliot the Shinypod",
+    "categorie": "Shinypod",
+    "image_bestand": "decor-potatopod-32-fancy-echo.webp"
+  },
+  {
+    "naam": "Rainer the Shinypod",
+    "categorie": "Shinypod",
+    "image_bestand": "decor-potatopod-33-fancy-blaster.webp"
+  },
+  {
+    "naam": "Zenni the Shinypod",
+    "categorie": "Shinypod",
+    "image_bestand": "decor-potatopod-34-fancy-hydroponics.webp"
+  },
+  {
+    "naam": "Lazlo the Shinypod",
+    "categorie": "Shinypod",
+    "image_bestand": "decor-potatopod-35-fancy-holographic.webp"
+  },
+  {
+    "naam": "Cappie the Shinypod",
+    "categorie": "Shinypod",
+    "image_bestand": "decor-potatopod-36-fancy-strangeshroom.webp"
+  },
+  {
+    "naam": "Patch the Shinypod",
+    "categorie": "Shinypod",
+    "image_bestand": "decor-potatopod-37-fancy-pumpkin.webp"
+  },
+  {
+    "naam": "Leif the Rockerpod",
+    "categorie": "Rockerpod",
+    "image_bestand": "decor-potatopod-01-dark-tree.webp"
+  },
+  {
+    "naam": "Gerard the Rockerpod",
+    "categorie": "Rockerpod",
+    "image_bestand": "decor-potatopod-02-dark-emo.webp"
+  },
+  {
+    "naam": "Momo the Rockerpod",
+    "categorie": "Rockerpod",
+    "image_bestand": "decor-potatopod-03-dark-vexy.webp"
+  },
+  {
+    "naam": "Axel the Rockerpod",
+    "categorie": "Rockerpod",
+    "image_bestand": "decor-potatopod-04-dark-rocker-01.webp"
+  },
+  {
+    "naam": "Gene the Rockerpod",
+    "categorie": "Rockerpod",
+    "image_bestand": "decor-potatopod-04-dark-rocker-02.webp"
+  },
+  {
+    "naam": "Hendrix the Rockerpod",
+    "categorie": "Rockerpod",
+    "image_bestand": "decor-potatopod-04-dark-rocker-03.webp"
+  },
+  {
+    "naam": "Jovi the Rockerpod",
+    "categorie": "Rockerpod",
+    "image_bestand": "decor-potatopod-04-dark-rocker-04.webp"
+  },
+  {
+    "naam": "Junior the Potato Pod",
+    "categorie": "Potato Pod",
+    "image_bestand": "decor-potatopod-07-normal-seedling.webp"
+  },
+  {
+    "naam": "Whirly the Potato Pod",
+    "categorie": "Potato Pod",
+    "image_bestand": "decor-potatopod-08-normal-sprout.webp"
+  },
+  {
+    "naam": "Mo the Potato Pod",
+    "categorie": "Potato Pod",
+    "image_bestand": "decor-potatopod-09-normal-succulent.webp"
+  },
+  {
+    "naam": "Shaggy the Potato Pod",
+    "categorie": "Potato Pod",
+    "image_bestand": "decor-potatopod-10-normal-glowy-moss.webp"
+  },
+  {
+    "naam": "Prickly the Potato Pod",
+    "categorie": "Potato Pod",
+    "image_bestand": "decor-potatopod-11-normal-cactus.webp"
+  },
+  {
+    "naam": "Priscilla the Prettypod",
+    "categorie": "Prettypod",
+    "image_bestand": "decor-potatopod-12-flowering-peony.webp"
+  },
+  {
+    "naam": "Dorian the Prettypod",
+    "categorie": "Prettypod",
+    "image_bestand": "decor-potatopod-13-flowering-daisy.webp"
+  },
+  {
+    "naam": "Dandy the Prettypod",
+    "categorie": "Prettypod",
+    "image_bestand": "decor-potatopod-14-flowering-dandelion.webp"
+  },
+  {
+    "naam": "Cosmo the Prettypod",
+    "categorie": "Prettypod",
+    "image_bestand": "decor-potatopod-15-flowering-cosmos.webp"
+  },
+  {
+    "naam": "Kelpie the Merpod",
+    "categorie": "Merpod",
+    "image_bestand": "decor-potatopod-16-water-kelp.webp"
+  },
+  {
+    "naam": "Ariel the Merpod",
+    "categorie": "Merpod",
+    "image_bestand": "decor-potatopod-17-water-jelly.webp"
+  },
+  {
+    "naam": "Nori the Merpod",
+    "categorie": "Merpod",
+    "image_bestand": "decor-potatopod-18-water-seaweed.webp"
+  },
+  {
+    "naam": "Jelly the Merpod",
+    "categorie": "Merpod",
+    "image_bestand": "decor-potatopod-19-water-biojelly.webp"
+  },
+  {
+    "naam": "Ardbert the Bonsai Pod",
+    "categorie": "Bonsai Pod",
+    "image_bestand": "decor-potatopod-20-bonsai-moyogi.webp"
+  },
+  {
+    "naam": "Ashe the Bonsai Pod",
+    "categorie": "Bonsai Pod",
+    "image_bestand": "decor-potatopod-21-bonsai-chokkan.webp"
+  },
+  {
+    "naam": "Autumn the Bonsai Pod",
+    "categorie": "Bonsai Pod",
+    "image_bestand": "decor-potatopod-22-bonsai-deciduous.webp"
+  },
+  {
+    "naam": "Myrtle the Bonsai Pod",
+    "categorie": "Bonsai Pod",
+    "image_bestand": "decor-potatopod-23-bonsai-crape-myrtle.webp"
+  },
+  {
+    "naam": "Hopper the Mushpod",
+    "categorie": "Mushpod",
+    "image_bestand": "decor-potatopod-24-mushroom-agaric.webp"
+  },
+  {
+    "naam": "Sunny the Mushpod",
+    "categorie": "Mushpod",
+    "image_bestand": "decor-potatopod-25-mushroom-parasol.webp"
+  },
+  {
+    "naam": "Bluebell the Mushpod",
+    "categorie": "Mushpod",
+    "image_bestand": "decor-potatopod-26-mushroom-indigo.webp"
+  },
+  {
+    "naam": "Port the Mushpod",
+    "categorie": "Mushpod",
+    "image_bestand": "decor-potatopod-27-mushroom-portabello.webp"
+  }
+]
