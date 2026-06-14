@@ -45,50 +45,30 @@ cd backend && python3 fetch_images.py
 - `/admin/verkopen` — alle claims met afbeelding, Twitch- en Palia-naam, status en tijdstip;
   per claim een **Confirm** (definitief maken) en **Cancel** (pod weer vrijgeven).
 
-## Deploy op PythonAnywhere (git pull, zoals bog)
+## Deploy op PythonAnywhere
 
-De code staat gekloond op PythonAnywhere; updaten = `git pull` + Reload. De code
-leeft in `~/pod/backend/`, dus de WSGI wijst naar die map. `pod.db` is gitignored
-en blijft staan over pulls heen, dus voorraad en claims blijven bewaard.
+Alles loopt via één script: **`deploy/setup.sh`**. Dat doet de `git pull`, seedt de
+database, zet (eenmalig) het admin-wachtwoord, schrijft het WSGI-bestand op z'n plek,
+installeert dependencies en herlaadt de web-app. `pod.db` is gitignored en blijft staan
+over pulls heen, dus voorraad en claims blijven bewaard.
 
-### Eenmalige setup (Bash-console op PythonAnywhere)
-
-```bash
-cd ~
-git clone https://github.com/Waldstein-prog/pod.git
-cd pod/backend
-python3 seed.py                 # vult de 57 pods, stock 1
-python3 set_password.py         # vraagt je admin-wachtwoord
-mkvirtualenv pod-venv --python=/usr/bin/python3.10
-pip install -r requirements.txt
-```
-
-Web-tab → **Add a new web app** → **Manual configuration** → zelfde Python-versie.
-- **Virtualenv**: `pod-venv`
-- **WSGI configuration file** (klik de link, wis de inhoud, plak dit):
-
-```python
-import sys, os
-path = '/home/JOUWNAAM/pod/backend'          # <-- jouw username
-if path not in sys.path:
-    sys.path.insert(0, path)
-os.environ['SECRET_KEY'] = 'ZET-HIER-EEN-LANG-RANDOM-STRING'
-os.environ['SESSION_COOKIE_SECURE'] = '1'
-from db import init_db
-from app import app as application
-init_db()
-```
-
-Klik **Reload**.
+### Eenmalige setup
+1. Web-tab → **Add a new web app** → **Manual configuration** → Python 3.10. (Zet
+   **Virtualenv** op `pod-venv` als je er een gebruikt.)
+2. Bash-console:
+   ```bash
+   cd ~ && git clone https://github.com/Waldstein-prog/pod.git
+   cd pod && bash deploy/setup.sh
+   ```
+   Het script vraagt eenmalig een admin-wachtwoord en regelt de rest.
+3. Web-tab → **Reload** (of automatisch als er een PythonAnywhere `API_TOKEN` is).
 
 ### Updaten (na elke push)
-
 ```bash
-cd ~/pod && git pull
-# alleen als requirements.txt wijzigde:  workon pod-venv && pip install -r backend/requirements.txt
+cd ~/pod && bash deploy/setup.sh
 ```
-
-Daarna Web-tab → **Reload**.
+Eén commando — het haalt de nieuwste code op en deployt. Daarna Web-tab → **Reload**
+(of automatisch met API-token).
 
 ## Deploy als zip (alternatief)
 

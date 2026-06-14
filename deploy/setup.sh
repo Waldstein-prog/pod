@@ -1,20 +1,24 @@
 #!/bin/bash
 # PythonAnywhere one-shot setup voor de pod shop.
 #
-#   cd ~/pod && git pull && bash deploy/setup.sh
+#   cd ~/pod && bash deploy/setup.sh
 #
-# Doet: database seeden, admin-wachtwoord (alleen indien nog niet gezet),
-# WSGI-bestand op z'n plek zetten, dependencies installeren.
-# Daarna hoef je alleen nog op de Web-tab op Reload te klikken.
+# Doet ALLES in één keer: laatste code ophalen (git pull), database seeden,
+# admin-wachtwoord (alleen indien nog niet gezet), WSGI-bestand op z'n plek
+# zetten, dependencies installeren en de web-app herladen.
+# Zonder API-token hoef je daarna enkel nog op de Web-tab op Reload te klikken.
 set -e
 
 REPO="$(cd "$(dirname "$0")/.." && pwd)"
 BACKEND="$REPO/backend"
 
-echo "==> 1/4  Database seeden"
+echo "==> 1/6  Laatste code ophalen (git pull)"
+git -C "$REPO" pull --ff-only
+
+echo "==> 2/6  Database seeden"
 python3 "$BACKEND/seed.py"
 
-echo "==> 2/4  Admin-wachtwoord"
+echo "==> 3/6  Admin-wachtwoord"
 if python3 - "$BACKEND/pod.db" <<'PY'
 import sys, sqlite3
 con = sqlite3.connect(sys.argv[1])
@@ -29,7 +33,7 @@ else
     python3 "$BACKEND/set_password.py"
 fi
 
-echo "==> 3/4  WSGI-bestand koppelen"
+echo "==> 4/6  WSGI-bestand koppelen"
 WROTE=0
 for f in /var/www/*_wsgi.py; do
     [ -e "$f" ] || continue
@@ -46,7 +50,7 @@ if [ "$WROTE" = 0 ]; then
     exit 1
 fi
 
-echo "==> 4/4  Dependencies"
+echo "==> 5/6  Dependencies"
 if [ -n "$VIRTUAL_ENV" ]; then
     pip install -q -r "$BACKEND/requirements.txt"
     echo "    geïnstalleerd in virtualenv: $VIRTUAL_ENV"
@@ -55,7 +59,7 @@ else
     echo "       workon pod-venv && pip install -r $BACKEND/requirements.txt"
 fi
 
-echo "==> 5/5  Web-app herladen"
+echo "==> 6/6  Web-app herladen"
 RELOADED=0
 DOMAIN="$(echo "$USER" | tr 'A-Z' 'a-z').pythonanywhere.com"
 if [ -n "$API_TOKEN" ]; then
