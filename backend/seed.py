@@ -6,7 +6,7 @@ from db import get_db, init_db
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 PODS_JSON = os.path.join(HERE, "pods.json")
-DEFAULT_STOCK = 1
+DEFAULT_STOCK = 0
 
 
 def seed():
