@@ -6,3 +6,4 @@ deploy_bundle/
 pod_deploy.zip
 .pytest_cache/
 .playwright-mcp/
+backend/secret_key.txt
