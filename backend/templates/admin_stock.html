@@ -13,16 +13,22 @@
       <button type="submit" class="go">Go Live</button>
     </form>
   {% endif %}
+  <form method="post" action="{{ url_for('admin_save_start') }}" class="inline"
+        onsubmit="return confirm('Save the current quantities as the start values (what Reset restores to)?');">
+    <button type="submit" class="go">Save as start values</button>
+  </form>
   <form method="post" action="{{ url_for('admin_reset') }}" class="inline"
-        onsubmit="return confirm('Reset: clear ALL claims and put every pod back to its starting quantity?');">
+        onsubmit="return confirm('Reset: clear ALL claims and put every pod back to its start value?');">
     <button type="submit">Reset</button>
   </form>
 </div>
 
 <h1>Stock management</h1>
-<p class="hint">Quantities save automatically — just use the arrows or type a number.</p>
+<p class="hint">Quantities save automatically — use the arrows or type a number.
+  <strong>Reset</strong> restores them to the <strong>Start</strong> values; click
+  <strong>Save as start values</strong> to make the current numbers the new baseline.</p>
 <table class="stocktabel">
-  <thead><tr><th></th><th>Pod</th><th>Category</th><th>Total</th><th>Claimed</th><th>Left</th></tr></thead>
+  <thead><tr><th></th><th>Pod</th><th>Category</th><th>Quantity</th><th>Start</th><th>Claimed</th><th>Left</th></tr></thead>
   <tbody>
     {% for pod in pods %}
       <tr>
@@ -30,6 +36,7 @@
         <td>{{ pod['naam'] }}</td>
         <td>{{ pod['categorie'] }}</td>
         <td><input type="number" class="stock-input" min="0" value="{{ pod['stock'] }}" data-pod="{{ pod['id'] }}"></td>
+        <td class="start-cell">{{ pod['begin_stock'] }}</td>
         <td class="claimed-cell">{{ pod['claimed'] }}</td>
         <td class="left-cell">{{ pod['remaining'] }}</td>
       </tr>

@@ -14,7 +14,8 @@ def client():
     db_mod.init_db()
     conn = db_mod.get_db()
     conn.execute(
-        "INSERT INTO pod (naam, categorie, image_bestand, stock) VALUES ('Test Pod', 'Mushpod', 'x.webp', 2)"
+        "INSERT INTO pod (naam, categorie, image_bestand, stock, begin_stock) "
+        "VALUES ('Test Pod', 'Mushpod', 'x.webp', 2, 2)"
     )
     conn.execute(
         "INSERT INTO setting (sleutel, waarde) VALUES ('admin_wachtwoord_hash', ?)",
@@ -101,16 +102,34 @@ def test_confirm_en_cancel(client):
     conn.close()
 
 
-def test_reset_wist_claims(client):
+def test_reset_wist_claims_en_herstelt_startwaarde(client):
     conn = _db()
     conn.execute("INSERT INTO claim (pod_id, bezoeker_naam, palia_naam) VALUES (1, 'A', 'Ap')")
-    conn.execute("INSERT INTO claim (pod_id, bezoeker_naam, palia_naam) VALUES (1, 'B', 'Bp')")
+    conn.execute("UPDATE pod SET stock = 0 WHERE id = 1")  # admin zette aantal op 0
     conn.commit()
     conn.close()
     _login(client)
     client.post("/admin/reset")
     conn = _db()
     assert conn.execute("SELECT COUNT(*) FROM claim").fetchone()[0] == 0
-    # stock (startwaarde) blijft ongemoeid
+    # aantal springt terug naar de startwaarde (2), niet naar 0
     assert conn.execute("SELECT stock FROM pod WHERE id=1").fetchone()[0] == 2
+    conn.close()
+
+
+def test_save_as_start_values(client):
+    _login(client)
+    client.post("/admin/stock", data={"pod_id": "1", "stock": "5"})
+    client.post("/admin/save-start")
+    conn = _db()
+    assert conn.execute("SELECT begin_stock FROM pod WHERE id=1").fetchone()[0] == 5
+    conn.close()
+    # na nieuwe start: aantal op 0 zetten en resetten -> terug naar 5
+    conn = _db()
+    conn.execute("UPDATE pod SET stock = 0 WHERE id = 1")
+    conn.commit()
+    conn.close()
+    client.post("/admin/reset")
+    conn = _db()
+    assert conn.execute("SELECT stock FROM pod WHERE id=1").fetchone()[0] == 5
     conn.close()

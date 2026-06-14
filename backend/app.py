@@ -207,9 +207,20 @@ def register_admin_routes(app):
     def admin_reset():
         db = get_db()
         db.execute("DELETE FROM claim")
+        db.execute("UPDATE pod SET stock = begin_stock")
         db.commit()
         db.close()
-        flash("All claims cleared — quantities back to starting values.", "ok")
+        flash("Claims cleared and quantities restored to the start values.", "ok")
+        return redirect(url_for("admin_stock"))
+
+    @app.route("/admin/save-start", methods=["POST"])
+    @login_required
+    def admin_save_start():
+        db = get_db()
+        db.execute("UPDATE pod SET begin_stock = stock")
+        db.commit()
+        db.close()
+        flash("Current quantities saved as the start values.", "ok")
         return redirect(url_for("admin_stock"))
 
     @app.route("/admin/verkopen")

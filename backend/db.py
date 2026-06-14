@@ -18,6 +18,11 @@ def _migrate(conn):
         conn.execute("ALTER TABLE claim ADD COLUMN palia_naam TEXT NOT NULL DEFAULT ''")
     if "status" not in claim_cols:
         conn.execute("ALTER TABLE claim ADD COLUMN status TEXT NOT NULL DEFAULT 'pending'")
+    pod_cols = {r[1] for r in conn.execute("PRAGMA table_info(pod)")}
+    if "begin_stock" not in pod_cols:
+        conn.execute("ALTER TABLE pod ADD COLUMN begin_stock INTEGER NOT NULL DEFAULT 0")
+        # Bestaande aantallen worden eenmalig de startwaarde.
+        conn.execute("UPDATE pod SET begin_stock = stock")
     # Giveaway start standaard 'niet live' tot de admin op Go Live klikt.
     conn.execute(
         "INSERT OR IGNORE INTO setting (sleutel, waarde) VALUES ('giveaway_live', '0')"

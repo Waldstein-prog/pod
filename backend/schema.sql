@@ -3,7 +3,8 @@ CREATE TABLE IF NOT EXISTS pod (
     naam          TEXT NOT NULL,
     categorie     TEXT NOT NULL,
     image_bestand TEXT NOT NULL,
-    stock         INTEGER NOT NULL DEFAULT 0   -- totaal/startwaarde dat weggegeven wordt
+    stock         INTEGER NOT NULL DEFAULT 0,  -- huidig aantal (bewerkbaar, auto-save)
+    begin_stock   INTEGER NOT NULL DEFAULT 0   -- startwaarde waar Reset naar terugzet
 );
 
 CREATE TABLE IF NOT EXISTS claim (
