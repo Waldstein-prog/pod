@@ -1,20 +1,20 @@
 <!doctype html>
-<html lang="nl">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{% block title %}Pod Shop{% endblock %}</title>
+  <title>{% block title %}Palia Pod Giveaway{% endblock %}</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
   <header>
-    <a class="logo" href="{{ url_for('shop') }}">🥔 Palia Pod Shop</a>
+    <a class="logo" href="{{ url_for('shop') }}">🥔 Palia Pod Giveaway</a>
     <nav>
       {% if session.get('admin') %}
-        <a href="{{ url_for('admin_stock') }}">Voorraad</a>
-        <a href="{{ url_for('admin_sales') }}">Verkopen</a>
+        <a href="{{ url_for('admin_stock') }}">Stock</a>
+        <a href="{{ url_for('admin_sales') }}">Claims</a>
         <form method="post" action="{{ url_for('admin_logout') }}" class="inline">
-          <button type="submit" class="linkbtn">Uitloggen</button>
+          <button type="submit" class="linkbtn">Log out</button>
         </form>
       {% else %}
         <a href="{{ url_for('admin_login') }}">Admin</a>

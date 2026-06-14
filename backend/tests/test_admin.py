@@ -44,7 +44,7 @@ def test_admin_vereist_login(client):
 def test_verkeerd_wachtwoord_faalt(client):
     resp = _login(client, "fout")
     assert resp.status_code == 200
-    assert b"Verkeerd wachtwoord" in resp.data
+    assert b"Wrong password" in resp.data
     resp2 = client.get("/admin", follow_redirects=False)
     assert resp2.status_code == 302
 

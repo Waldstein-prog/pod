@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Gekozen pods</h1>
+<h1>Claimed pods</h1>
 {% if not claims %}
-  <p>Nog niemand heeft een pod gekozen.</p>
+  <p>No one has claimed a pod yet.</p>
 {% else %}
   <table class="verkopen">
-    <thead><tr><th></th><th>Pod</th><th>Categorie</th><th>Gekozen door</th><th>Wanneer</th></tr></thead>
+    <thead><tr><th></th><th>Pod</th><th>Category</th><th>Claimed by</th><th>When</th></tr></thead>
     <tbody>
       {% for c in claims %}
         <tr>

@@ -44,7 +44,7 @@ def create_app():
         pod_id = request.form.get("pod_id", type=int)
         naam = (request.form.get("bezoeker_naam") or "").strip()
         if not pod_id or not naam:
-            flash("Vul je naam in om een pod te kiezen.", "fout")
+            flash("Enter your Twitch name to claim a pod.", "fout")
             return redirect(url_for("shop"))
         db = get_db()
         try:
@@ -52,7 +52,7 @@ def create_app():
             if not pod:
                 abort(404)
             if pod["stock"] < 1:
-                flash(f"{pod['naam']} is helaas uitverkocht.", "fout")
+                flash(f"{pod['naam']} is already gone.", "fout")
                 return redirect(url_for("shop"))
             db.execute(
                 "INSERT INTO claim (pod_id, bezoeker_naam) VALUES (?, ?)",
@@ -81,7 +81,7 @@ def register_admin_routes(app):
             if row and check_password_hash(row["waarde"], wachtwoord):
                 session["admin"] = True
                 return redirect(url_for("admin_stock"))
-            return render_template("admin_login.html", fout="Verkeerd wachtwoord")
+            return render_template("admin_login.html", fout="Wrong password")
         if session.get("admin"):
             return redirect(url_for("admin_stock"))
         return render_template("admin_login.html", fout=None)
@@ -109,7 +109,7 @@ def register_admin_routes(app):
             db.execute("UPDATE pod SET stock = ? WHERE id = ?", (stock, pod_id))
             db.commit()
             db.close()
-            flash("Voorraad bijgewerkt.", "ok")
+            flash("Stock updated.", "ok")
         return redirect(url_for("admin_stock"))
 
     @app.route("/admin/verkopen")

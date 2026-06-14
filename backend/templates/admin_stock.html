@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Voorraadbeheer</h1>
+<h1>Stock management</h1>
 <table class="stocktabel">
-  <thead><tr><th></th><th>Pod</th><th>Categorie</th><th>Voorraad</th></tr></thead>
+  <thead><tr><th></th><th>Pod</th><th>Category</th><th>Stock</th></tr></thead>
   <tbody>
     {% for pod in pods %}
       <tr>
@@ -13,7 +13,7 @@
           <form method="post" action="{{ url_for('admin_stock_update') }}" class="inline">
             <input type="hidden" name="pod_id" value="{{ pod['id'] }}">
             <input type="number" name="stock" min="0" value="{{ pod['stock'] }}" style="width:5em">
-            <button type="submit">Opslaan</button>
+            <button type="submit">Save</button>
           </form>
         </td>
       </tr>
