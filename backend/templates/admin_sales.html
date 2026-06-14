@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Gekozen pods</h1>
+{% if not claims %}
+  <p>Nog niemand heeft een pod gekozen.</p>
+{% else %}
+  <table class="verkopen">
+    <thead><tr><th></th><th>Pod</th><th>Categorie</th><th>Gekozen door</th><th>Wanneer</th></tr></thead>
+    <tbody>
+      {% for c in claims %}
+        <tr>
+          <td><img class="thumb" src="{{ url_for('static', filename='pods/' ~ c['image_bestand']) }}" alt=""></td>
+          <td>{{ c['pod_naam'] }}</td>
+          <td>{{ c['categorie'] }}</td>
+          <td>{{ c['bezoeker_naam'] }}</td>
+          <td>{{ c['tijdstip'] }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
+{% endblock %}

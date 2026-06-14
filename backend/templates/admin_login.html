@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="loginbox">
+  <h1>Admin login</h1>
+  {% if fout %}<div class="flash fout">{{ fout }}</div>{% endif %}
+  <form method="post">
+    <input type="password" name="wachtwoord" placeholder="Wachtwoord" required autofocus>
+    <button type="submit">Inloggen</button>
+  </form>
+</div>
+{% endblock %}
