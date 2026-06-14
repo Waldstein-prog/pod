@@ -33,12 +33,10 @@ echo "==> 3/4  WSGI-bestand koppelen"
 WROTE=0
 for f in /var/www/*_wsgi.py; do
     [ -e "$f" ] || continue
-    if [ "$f" -ef "$REPO/deploy/pa_wsgi.py" ]; then
-        echo "    al gekoppeld (symlink) -> $f"
-    else
-        cp "$REPO/deploy/pa_wsgi.py" "$f"
-        echo "    geschreven naar $f"
-    fi
+    # --remove-destination vervangt ook een bestaande symlink door een echt
+    # bestand (PythonAnywhere volgt symlinks niet altijd).
+    cp --remove-destination "$REPO/deploy/pa_wsgi.py" "$f"
+    echo "    geschreven naar $f"
     WROTE=1
 done
 if [ "$WROTE" = 0 ]; then
