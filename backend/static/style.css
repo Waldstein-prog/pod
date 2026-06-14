@@ -1,0 +1,36 @@
+:root { --bg:#f6f3ec; --card:#fff; --ink:#2d2a26; --accent:#7a9e5e; --accent-d:#5c7d44; --line:#e3ddd0; }
+* { box-sizing: border-box; }
+body { margin:0; font-family: system-ui, sans-serif; background:var(--bg); color:var(--ink); }
+header { position:sticky; top:0; display:flex; justify-content:space-between; align-items:center;
+  padding:.8rem 1.2rem; background:var(--accent); color:#fff; box-shadow:0 2px 6px rgba(0,0,0,.15); z-index:10; }
+header a { color:#fff; text-decoration:none; margin-left:1rem; }
+.logo { font-size:1.3rem; font-weight:700; margin:0; }
+nav { display:flex; align-items:center; gap:.5rem; }
+.inline { display:inline; }
+.linkbtn { background:none; border:none; color:#fff; cursor:pointer; font:inherit; text-decoration:underline; }
+main { max-width:1100px; margin:0 auto; padding:1.5rem 1rem 4rem; }
+h1 { margin-top:0; }
+h2 { border-bottom:2px solid var(--line); padding-bottom:.3rem; margin-top:2rem; }
+.grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:1rem; }
+.card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:1rem;
+  text-align:center; display:flex; flex-direction:column; }
+.card img { width:100%; aspect-ratio:1; object-fit:contain; }
+.card h3 { font-size:1rem; margin:.5rem 0 .3rem; }
+.card.uitverkocht { opacity:.55; }
+.stock { font-size:.85rem; color:var(--accent-d); margin:.2rem 0 .6rem; }
+.stock.op { color:#b04a3a; font-weight:600; }
+.card input[type=text] { width:100%; padding:.4rem; margin-bottom:.4rem; border:1px solid var(--line); border-radius:6px; }
+button, .btn { background:var(--accent); color:#fff; border:none; padding:.5rem .9rem; border-radius:6px;
+  cursor:pointer; font:inherit; text-decoration:none; display:inline-block; }
+button:hover, .btn:hover { background:var(--accent-d); }
+.flash { padding:.6rem 1rem; border-radius:6px; margin-bottom:1rem; }
+.flash.ok { background:#dff0d8; color:#3c763d; }
+.flash.fout { background:#f2dede; color:#a94442; }
+.bevestiging { text-align:center; }
+.bevestiging img { width:220px; aspect-ratio:1; object-fit:contain; }
+.loginbox { max-width:320px; margin:3rem auto; text-align:center; }
+.loginbox input { width:100%; padding:.5rem; margin-bottom:.6rem; border:1px solid var(--line); border-radius:6px; }
+table { width:100%; border-collapse:collapse; background:var(--card); border-radius:10px; overflow:hidden; }
+th, td { padding:.5rem .7rem; border-bottom:1px solid var(--line); text-align:left; vertical-align:middle; }
+.thumb { width:48px; height:48px; object-fit:contain; }
+.stocktabel .inline { display:flex; gap:.4rem; align-items:center; }
