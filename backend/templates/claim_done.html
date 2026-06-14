@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="bevestiging">
+  <h1>Gelukt, {{ naam }}! 🎉</h1>
+  <img src="{{ url_for('static', filename='pods/' ~ pod['image_bestand']) }}" alt="{{ pod['naam'] }}">
+  <p>Je koos <strong>{{ pod['naam'] }}</strong> ({{ pod['categorie'] }}).</p>
+  <a class="btn" href="{{ url_for('shop') }}">Terug naar de winkel</a>
+</div>
+{% endblock %}

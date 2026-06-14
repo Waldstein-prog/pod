@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Pod Shop{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header>
+    <a class="logo" href="{{ url_for('shop') }}">🥔 Palia Pod Shop</a>
+    <nav>
+      {% if session.get('admin') %}
+        <a href="{{ url_for('admin_stock') }}">Voorraad</a>
+        <a href="{{ url_for('admin_sales') }}">Verkopen</a>
+        <form method="post" action="{{ url_for('admin_logout') }}" class="inline">
+          <button type="submit" class="linkbtn">Uitloggen</button>
+        </form>
+      {% else %}
+        <a href="{{ url_for('admin_login') }}">Admin</a>
+      {% endif %}
+    </nav>
+  </header>
+  <main>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for cat, msg in messages %}
+        <div class="flash {{ cat }}">{{ msg }}</div>
+      {% endfor %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

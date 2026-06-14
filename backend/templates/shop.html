@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Kies je pod</h1>
+{% for categorie, pods in per_categorie.items() %}
+  <h2>{{ categorie }}</h2>
+  <div class="grid">
+    {% for pod in pods %}
+      <div class="card {% if pod['stock'] < 1 %}uitverkocht{% endif %}">
+        <img src="{{ url_for('static', filename='pods/' ~ pod['image_bestand']) }}" alt="{{ pod['naam'] }}" loading="lazy">
+        <h3>{{ pod['naam'] }}</h3>
+        {% if pod['stock'] > 0 %}
+          <p class="stock">Nog {{ pod['stock'] }} beschikbaar</p>
+          <form method="post" action="{{ url_for('claim') }}">
+            <input type="hidden" name="pod_id" value="{{ pod['id'] }}">
+            <input type="text" name="bezoeker_naam" placeholder="Jouw naam" required>
+            <button type="submit">Kies deze pod</button>
+          </form>
+        {% else %}
+          <p class="stock op">Uitverkocht</p>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+{% endfor %}
+{% endblock %}
