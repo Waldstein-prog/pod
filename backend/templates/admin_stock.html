@@ -13,10 +13,6 @@
       <button type="submit" class="go">Go Live</button>
     </form>
   {% endif %}
-  <form method="post" action="{{ url_for('admin_save_start') }}" class="inline"
-        onsubmit="return confirm('Save the current quantities as the start values (what Reset restores to)?');">
-    <button type="submit" class="go">Save as start values</button>
-  </form>
   <form method="post" action="{{ url_for('admin_reset') }}" class="inline"
         onsubmit="return confirm('Reset: clear ALL claims and put every pod back to its start value?');">
     <button type="submit">Reset</button>
@@ -25,8 +21,7 @@
 
 <h1>Stock management</h1>
 <p class="hint">Quantities save automatically — use the arrows or type a number.
-  <strong>Reset</strong> restores them to the <strong>Start</strong> values; click
-  <strong>Save as start values</strong> to make the current numbers the new baseline.</p>
+  <strong>Reset</strong> clears all claims and restores the <strong>Start</strong> values.</p>
 <table class="stocktabel">
   <thead><tr><th></th><th>Pod</th><th>Category</th><th>Quantity</th><th>Start</th><th>Claimed</th><th>Left</th></tr></thead>
   <tbody>
