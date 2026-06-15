@@ -1,7 +1,7 @@
 import sqlite3
 import os
 
-DB_PATH = os.path.join(os.path.dirname(__file__), "pod.db")
+DB_PATH = os.environ.get("POD_DB_PATH") or os.path.join(os.path.dirname(__file__), "pod.db")
 
 
 def get_db():

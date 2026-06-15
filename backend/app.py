@@ -115,6 +115,9 @@ def create_app():
             if not _is_live(db):
                 flash("The giveaway is not live.", "fout")
                 return redirect(url_for("shop"))
+            # Serialiseer de check+insert zodat gelijktijdige claims op de laatste
+            # pod elkaar niet kunnen overlopen (write-lock tot commit/rollback).
+            db.execute("BEGIN IMMEDIATE")
             already = db.execute(
                 "SELECT 1 FROM claim WHERE LOWER(bezoeker_naam) = LOWER(?)", (twitch,)
             ).fetchone()
