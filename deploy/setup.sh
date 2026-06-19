@@ -61,10 +61,13 @@ fi
 
 echo "==> 6/6  Web-app herladen"
 RELOADED=0
-DOMAIN="$(echo "$USER" | tr 'A-Z' 'a-z').pythonanywhere.com"
+# PythonAnywhere zet PYTHONANYWHERE_DOMAIN per regio: 'pythonanywhere.com' (US)
+# of 'eu.pythonanywhere.com' (EU). Zo werkt reload in beide regio's.
+PA_HOST="${PYTHONANYWHERE_DOMAIN:-pythonanywhere.com}"
+DOMAIN="$(echo "$USER" | tr 'A-Z' 'a-z').$PA_HOST"
 if [ -n "$API_TOKEN" ]; then
     if curl -sf -X POST \
-        "https://www.pythonanywhere.com/api/v0/user/$USER/webapps/$DOMAIN/reload/" \
+        "https://$PA_HOST/api/v0/user/$USER/webapps/$DOMAIN/reload/" \
         -H "Authorization: Token $API_TOKEN" >/dev/null 2>&1; then
         echo "    automatisch herladen gelukt ($DOMAIN)"
         RELOADED=1
@@ -77,7 +80,9 @@ if [ "$RELOADED" = 1 ]; then
     echo " KLAAR. Open https://$DOMAIN — de pod-winkel draait."
 else
     echo " BIJNA KLAAR. Eén klik nog: Web-tab -> groene Reload-knop."
-    echo " (auto-reload kon niet: geen API-token. Account-tab -> 'API token'"
-    echo "  aanmaken en dit script opnieuw draaien laat 't voortaan vanzelf gaan.)"
+    echo " (auto-reload kon niet: geen API-token gevonden in \$API_TOKEN."
+    echo "  Account-tab -> 'API token' aanmaken, dan een NIEUWE Bash-console"
+    echo "  openen (bestaande consoles kennen het token nog niet) en dit script"
+    echo "  daar opnieuw draaien -> voortaan herlaadt 't vanzelf.)"
 fi
 echo "============================================================"
