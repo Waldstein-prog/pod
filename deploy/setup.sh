@@ -61,16 +61,29 @@ fi
 
 echo "==> 6/6  Web-app herladen"
 RELOADED=0
-# PythonAnywhere zet PYTHONANYWHERE_DOMAIN per regio: 'pythonanywhere.com' (US)
-# of 'eu.pythonanywhere.com' (EU). Zo werkt reload in beide regio's.
-PA_HOST="${PYTHONANYWHERE_DOMAIN:-pythonanywhere.com}"
-DOMAIN="$(echo "$USER" | tr 'A-Z' 'a-z').$PA_HOST"
-if [ -n "$API_TOKEN" ]; then
+# Domein en API-host bepalen — werkt op zowel de US- als de EU-site.
+# PythonAnywhere zet PYTHONANYWHERE_DOMAIN/_SITE in de console; val anders
+# terug op de US-waarden. Override desnoods met WEBAPP_DOMAIN.
+PA_BASE_DOMAIN="${PYTHONANYWHERE_DOMAIN:-pythonanywhere.com}"
+DOMAIN="${WEBAPP_DOMAIN:-$(echo "$USER" | tr 'A-Z' 'a-z').$PA_BASE_DOMAIN}"
+API_BASE="${PYTHONANYWHERE_SITE:-https://www.pythonanywhere.com}"
+
+# Token uit env, of uit ~/.pa_api_token (zet 'm daar één keer neer). De env-var
+# $API_TOKEN verschijnt pas na een reload + nieuwe console; het bestand omzeilt
+# dat gedoe en werkt overal (console, scheduled task, WSGI).
+TOKEN="${API_TOKEN:-}"
+if [ -z "$TOKEN" ] && [ -f "$HOME/.pa_api_token" ]; then
+    TOKEN="$(tr -d '[:space:]' < "$HOME/.pa_api_token")"
+fi
+
+if [ -n "$TOKEN" ]; then
     if curl -sf -X POST \
-        "https://$PA_HOST/api/v0/user/$USER/webapps/$DOMAIN/reload/" \
-        -H "Authorization: Token $API_TOKEN" >/dev/null 2>&1; then
+        "$API_BASE/api/v0/user/$USER/webapps/$DOMAIN/reload/" \
+        -H "Authorization: Token $TOKEN" >/dev/null 2>&1; then
         echo "    automatisch herladen gelukt ($DOMAIN)"
         RELOADED=1
+    else
+        echo "    !! reload-API faalde. Controleer token en domein ($DOMAIN via $API_BASE)."
     fi
 fi
 
@@ -80,9 +93,8 @@ if [ "$RELOADED" = 1 ]; then
     echo " KLAAR. Open https://$DOMAIN — de pod-winkel draait."
 else
     echo " BIJNA KLAAR. Eén klik nog: Web-tab -> groene Reload-knop."
-    echo " (auto-reload kon niet: geen API-token gevonden in \$API_TOKEN."
-    echo "  Account-tab -> 'API token' aanmaken, dan een NIEUWE Bash-console"
-    echo "  openen (bestaande consoles kennen het token nog niet) en dit script"
-    echo "  daar opnieuw draaien -> voortaan herlaadt 't vanzelf.)"
+    echo " (auto-reload aanzetten? Zet je API-token één keer in een bestand:"
+    echo "    echo 'JOUW_TOKEN' > ~/.pa_api_token"
+    echo "  Daarna herlaadt dit script voortaan vanzelf.)"
 fi
 echo "============================================================"
